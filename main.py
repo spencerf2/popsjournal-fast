@@ -1,26 +1,34 @@
+from datetime import datetime
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
+from schemas.common import CommonInfoModel
 
-class HeroBase(SQLModel):
+
+class HeroBase(CommonInfoModel):
+    phone_number: str = Field(default=None)
     name: str = Field(index=True)
     age: int | None = Field(default=None, index=True)
 
 class Hero(HeroBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
     secret_name: str
 
 class HeroPublic(HeroBase):
-    id: int
+    pass
 
-class HeroCreate(HeroBase):
+class HeroCreate(SQLModel):
+    name: str
+    phone_number: str | None = None
+    age: int | None = None
     secret_name: str
 
-class HeroUpdate(HeroBase):
+class HeroUpdate(SQLModel):
     name: str | None = None
     age: int | None = None
+    phone_number: str | None = None
     secret_name: str | None = None
 
 sqlite_file_name = "database.db"
@@ -69,7 +77,7 @@ def read_heroes(
 
 
 @app.get("/heroes/{hero_id}", response_model=HeroPublic)
-def read_hero(hero_id: int, session: SessionDep):
+def read_hero(hero_id: UUID, session: SessionDep):
     hero = session.get(Hero, hero_id)
     if not hero:
         raise HTTPException(status_code=404, detail="Hero not found")
@@ -77,7 +85,7 @@ def read_hero(hero_id: int, session: SessionDep):
 
 
 @app.patch("/heroes/{hero_id}", response_model=HeroPublic)
-def update_hero(hero_id: int, hero: HeroUpdate, session: SessionDep):
+def update_hero(hero_id: UUID, hero: HeroUpdate, session: SessionDep):
     hero_db = session.get(Hero, hero_id)
     if not hero_db:
         raise HTTPException(status_code=404, detail="Hero not found")
