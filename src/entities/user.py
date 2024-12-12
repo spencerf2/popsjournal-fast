@@ -1,6 +1,6 @@
 from sqlmodel import Field
 
-from common import CommonInfoModel
+from src.entities.base import CommonInfoModel
 
 
 class UserBase(CommonInfoModel):

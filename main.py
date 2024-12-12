@@ -1,11 +1,10 @@
-from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 
-from schemas.common import CommonInfoModel
+from src.entities.base import CommonInfoModel
 
 
 class HeroBase(CommonInfoModel):
