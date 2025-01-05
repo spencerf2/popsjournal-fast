@@ -14,8 +14,8 @@ def test_processed_pdf_has_metadata():
     assert 'source' in result[0].metadata
     assert 'page' in result[0].metadata
 
-    assert len(result) > 60
-    assert all(len(chunk.page_content) <= 250 for chunk in result)
+    assert len(result) > 30
+    assert all(len(chunk.page_content) <= 500 for chunk in result)
 
 @pytest.mark.skip(reason="DOCX support not yet implemented")
 def test_processed_docx_has_metadata():

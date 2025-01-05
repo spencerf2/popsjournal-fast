@@ -14,8 +14,8 @@ def process_document(file_path: str):
             docs = [Document(page_content=text, metadata={})]
 
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=250,
-        chunk_overlap=25,
+        chunk_size=500,
+        chunk_overlap=50,
         length_function=len,
     )
     return text_splitter.split_documents(docs)

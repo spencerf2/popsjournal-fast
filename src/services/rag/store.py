@@ -6,7 +6,7 @@ from langchain_core.documents import Document
 from src.services.rag.embeddings import get_embedding_model
 
 
-def create_documents(documents: list[Document], persist_directory: str = "./chroma_langchain_db"):
+def create_documents(documents: list[Document], persist_directory: str | None = None):
     """Creates a vector store from documents.
         We will replace Chroma with pgvector when we move to prod. so
         the persist_directory param is temporary.
@@ -14,7 +14,7 @@ def create_documents(documents: list[Document], persist_directory: str = "./chro
     vector_store = Chroma(
         collection_name="popsjournal",
         embedding_function=get_embedding_model(),
-        persist_directory=str(persist_directory),
+        persist_directory=persist_directory,
     )
 
     ids = [str(uuid4()) for _ in range(len(documents))]
