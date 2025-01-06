@@ -18,3 +18,7 @@ class CommonInfoModel(SQLModel):
         nullable=False,
         sa_column_kwargs={"onupdate": lambda: datetime.now(timezone.utc)},
     )
+
+    model_config = {
+        "arbitrary_types_allowed": True
+    }
