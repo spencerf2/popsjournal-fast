@@ -10,6 +10,7 @@ from src.services.rag.store import create_documents
 FIXTURE_DIR = Path(__file__).parent.parent.parent / "fixtures"
 
 
+# TODO: Check if there's anything here we want to move to test_generator
 def test_create_documents_produces_vector_store():
     with tempfile.TemporaryDirectory() as temp_dir:
         path = f"{FIXTURE_DIR}/douglass_ch1.pdf"
